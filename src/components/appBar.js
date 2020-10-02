@@ -12,6 +12,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { AccountCircle } from "@material-ui/icons";
 import { withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,17 +37,17 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-evenly",
   },
-  headerBox: {
+  centerBox: {
     flexBasis: 0,
     flexGrow: 1,
     display: "flex",
     justifyContent: "center",
   },
-  emptyBox: {
+  leftBox: {
     flexBasis: 0,
     flexGrow: 1,
   },
-  buttonBox: {
+  rightBox: {
     flexBasis: 0,
     flexGrow: 1,
     display: "flex",
@@ -77,8 +78,8 @@ function MenuAppBar(props) {
         }}
       >
         <Toolbar classesName={classes.toolbar}>
-          <Box className={classes.emptyBox} />
-          <Box className={classes.headerBox}>
+          <Box className={classes.leftBox} />
+          <Box className={classes.centerBox}>
             <Typography
               variant="h4"
               className={classes.title}
@@ -88,7 +89,7 @@ function MenuAppBar(props) {
             </Typography>
           </Box>
           {user.id ? (
-            <div className={classes.buttonBox}>
+            <div className={classes.rightBox}>
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -140,7 +141,7 @@ function MenuAppBar(props) {
               </Menu>
             </div>
           ) : (
-            <Box className={classes.buttonBox}>
+            <Box className={classes.rightBox}>
               <Button
                 variant="outlined"
                 size="small"
@@ -158,5 +159,10 @@ function MenuAppBar(props) {
     </div>
   );
 }
+
+MenuAppBar.propTypes = {
+  logout: PropTypes.func,
+  user: PropTypes.object,
+};
 
 export default withRouter(MenuAppBar);

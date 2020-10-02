@@ -12,6 +12,7 @@ import StarBorderIcon from "@material-ui/icons/StarBorder";
 import StarIcon from "@material-ui/icons/Star";
 import { makeStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles(() => ({
   card: {
@@ -35,13 +36,15 @@ const useStyles = makeStyles(() => ({
     alignSelf: "flex-end",
     justifySelf: "flex-end",
   },
+  cardTitle: {
+    fontFamily: "Lato, serif",
+    textAlign: "center",
+  },
 }));
 
 export function RecipeCard(props) {
   const classes = useStyles();
-  const isSaved = props.isSaved || false;
-  const user = props.user || {};
-  const card = props.recipe;
+  const { isSaved, user, recipe } = props;
 
   return (
     <React.Fragment>
@@ -49,17 +52,17 @@ export function RecipeCard(props) {
         <Card className={classes.card}>
           <CardMedia
             className={classes.cardMedia}
-            image={card.imgUrl}
-            title={card.title}
+            image={recipe.imgUrl}
+            title={recipe.title}
           />
           <CardContent className={classes.cardContent}>
             <Typography
               gutterBottom
               variant="h5"
               component="h2"
-              style={{ fontFamily: "Lato, serif", textAlign: "center" }}
+              className={classes.cardTitle}
             >
-              {card.title}
+              {recipe.title}
             </Typography>
           </CardContent>
           <CardActions className={classes.button}>
@@ -68,10 +71,10 @@ export function RecipeCard(props) {
               color="primary"
               className={classes.view}
               onClick={() => {
-                props.setSingleRecipe(card);
+                props.setSingleRecipe(recipe);
                 props.history.push({
                   pathname: "/single-recipe",
-                  state: card,
+                  state: recipe,
                 });
               }}
             >
@@ -80,14 +83,14 @@ export function RecipeCard(props) {
             {user.id && isSaved ? (
               <Button
                 className={classes.save}
-                onClick={() => props.removeRecipe(card)}
+                onClick={() => props.removeRecipe(recipe)}
               >
                 <StarIcon />
               </Button>
             ) : user.id ? (
               <Button
                 className={classes.save}
-                onClick={() => props.saveRecipe(card)}
+                onClick={() => props.saveRecipe(recipe)}
               >
                 <StarBorderIcon />
               </Button>
@@ -98,5 +101,16 @@ export function RecipeCard(props) {
     </React.Fragment>
   );
 }
+
+RecipeCard.propTypes = {
+  isSaved: PropTypes.bool,
+  user: PropTypes.object,
+  recipe: PropTypes.object,
+};
+
+RecipeCard.defaultProps = {
+  isSaved: false,
+  user: {},
+};
 
 export default withRouter(RecipeCard);

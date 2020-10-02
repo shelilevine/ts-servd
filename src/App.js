@@ -65,10 +65,7 @@ export class App extends React.Component {
   async componentDidMount() {
     try {
       const { data } = await axios.get(`${serverUrl}/auth`);
-      this.setUser(data);
-      if (this.state.user.id) {
-        this.getRecipes();
-      }
+      await this.setUser(data);
     } catch (err) {
       console.error(err.response.data);
     }

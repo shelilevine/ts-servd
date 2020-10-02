@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import SignUpForm from "./SignUpForm";
 import axios from "axios";
 import { Redirect, withRouter } from "react-router-dom";
 import {

@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import AllRecipesRender from "./allRecipesRender";
+import PropTypes from "prop-types";
 
 const serverUrl = "/api/recipes";
 
@@ -41,5 +42,15 @@ export function AllRecipesView(props) {
     />
   );
 }
+
+AllRecipesView.propTypes = {
+  removeRecipe: PropTypes.func,
+  saveRecipe: PropTypes.func,
+  savedRecipes: PropTypes.array,
+  search: PropTypes.array,
+  setSearchResults: PropTypes.func,
+  setSingleRecipe: PropTypes.func,
+  user: PropTypes.object,
+};
 
 export default withRouter(AllRecipesView);

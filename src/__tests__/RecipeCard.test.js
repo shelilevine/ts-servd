@@ -1,6 +1,6 @@
 import React from "react";
 import enzyme, { shallow } from "enzyme";
-import { RecipeCard } from "./RecipeCard";
+import { RecipeCard } from "../components/RecipeCard";
 import Adapter from "enzyme-adapter-react-16";
 import { render, fireEvent } from "@testing-library/react";
 
@@ -60,8 +60,5 @@ describe("Recipe Card for logged in users", () => {
 
     fireEvent.click(saveButton);
     expect(save).toHaveBeenCalledTimes(1);
-
-    // const { debug } = render(<RecipeCard recipe={recipe} user={user} saveRecipe={save}/>);
-    // debug()
   });
 });
