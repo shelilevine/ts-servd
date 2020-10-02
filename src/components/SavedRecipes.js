@@ -34,19 +34,11 @@ const SavedRecipes = (props) => {
     <React.Fragment>
       <main>
         <Container className={classes.cardGrid} maxWidth="md">
-          {recipes.length ? (
-            <Box className={classes.results}>
-              <Typography variant="h3" color="inherit" className={classes.text}>
-                SAVED RECIPES
-              </Typography>
-            </Box>
-          ) : (
-            <Box className={classes.results}>
-              <Typography variant="h3" color="inherit" className={classes.text}>
-                NO SAVED RECIPES <br />
-              </Typography>
-            </Box>
-          )}
+          <Box className={classes.results}>
+            <Typography variant="h3" color="inherit" className={classes.text}>
+              {recipes.length ? "SAVED RECIPES" : "NO SAVED RECIPES"}
+            </Typography>
+          </Box>
           <Grid container spacing={4}>
             {recipes.map((recipe) => (
               <RecipeCard
