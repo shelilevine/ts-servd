@@ -1,10 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import { Box, Button, Typography } from "@material-ui/core";
 import Search from "./search";
 import arrowWood from "../arrowwoodback.jpg";
 import { Redirect, withRouter } from "react-router-dom";
+import CSS from 'csstype';
 
-const styles = {
+interface Styles {
+  paperContainer: CSS.Properties
+  formContainer: CSS.Properties
+  title: CSS.Properties
+  button: CSS.Properties
+}
+
+const styles: Styles = {
   paperContainer: {
     minHeight: "100vh",
     margin: "0px",
@@ -26,7 +34,7 @@ const styles = {
   },
   title: {
     color: "white",
-    fontWeight: "70px",
+    // fontWeight: "70px",
     fontFamily: "Oswald, sans-serif",
     fontSize: "50px",
     paddingBottom: "40px",
@@ -39,7 +47,13 @@ const styles = {
   },
 };
 
-export function Home(props) {
+type Props = {
+  setSearchResults: (result: Array<string>) => Array<string>
+}
+
+
+
+export function Home(props: Props): JSX.Element {
   const [ingredient, setIngredient] = useState("");
   const [isSubmitted, setSubmitStatus] = useState(false);
 
@@ -70,14 +84,14 @@ export function Home(props) {
           color="inherit"
           align="center"
           variant="h2"
-          marked="center"
           style={styles.title}
+          component="h2"
         >
           SEARCH FOR RECIPES
         </Typography>
         <Search
           ingredient={ingredient}
-          onChange={(evt) => setIngredient(evt.target.value)}
+          onChange={(evt: React.ChangeEvent<HTMLInputElement>) => setIngredient(evt.target.value)}
           onSubmit={handleSubmit}
         />
         <Button

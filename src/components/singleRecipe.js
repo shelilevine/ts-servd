@@ -12,6 +12,8 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
+import SingleRecipeIngredients from "./SingleRecipeIngredients";
+import SingleRecipeSteps from "./SingleRecipeSteps";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,16 +48,6 @@ const useStyles = makeStyles((theme) => ({
   recipeImgContainer: {
     display: "flex",
   },
-  recipeIngredientsContainer: {
-    display: "flex",
-    marginLeft: "3%",
-    paddingBottom: "3%",
-  },
-  recipeIngredients: {
-    marginTop: "1%",
-    paddingTop: "1%",
-    paddingBottom: "1%",
-  },
   favoriteStar: {
     marginTop: "2%",
   },
@@ -74,7 +66,6 @@ export function SingleRecipe(props) {
   const isSaved =
     props.appState.savedRecipes.filter((saved) => saved.title === recipe.title)
       .length > 0;
-  recipe.steps = recipe.steps || [];
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -100,7 +91,7 @@ export function SingleRecipe(props) {
                 gutterBottom
                 className={`${classes.typography} ${classes.servings}`}
               >
-                <span>Servings: {recipe.servings} </span>
+                Servings: {recipe.servings}
               </Typography>
               <Typography
                 variant="h6"
@@ -108,7 +99,7 @@ export function SingleRecipe(props) {
                 gutterBottom
                 className={classes.typography}
               >
-                <span>Cook Time: {recipe.time} min. </span>
+                Cook Time: {recipe.time} min.
               </Typography>
             </Typography>
 
@@ -129,6 +120,7 @@ export function SingleRecipe(props) {
           </Box>
         </Grid>
 
+        {/* Recipe Image */}
         <Grid className={classes.recipeImg}>
           <Container className={classes.recipeImgContainer}>
             <img
@@ -139,74 +131,11 @@ export function SingleRecipe(props) {
           </Container>
         </Grid>
 
-        <Grid className={classes.recipeIngredientsContainer}>
-          <Grid className={classes.recipeIngredients} container>
-            <Container style={{ paddingLeft: "0px" }}>
-              <Typography
-                variant="h5"
-                component="h2"
-                gutterBottom
-                className={classes.typography}
-              >
-                <strong>Ingredients</strong>
-              </Typography>
-            </Container>
-            <Grid
-              container
-              spacing={3}
-              style={{ marginLeft: "1%", paddingTop: "2%" }}
-            >
-              {recipe.ingredients.map((ingredient) => (
-                <Grid container xs={6} sm={6} key={ingredient} spacing={0}>
-                  <Typography
-                    variant="h6"
-                    component="h2"
-                    gutterBottom
-                    className={classes.typography}
-                  >
-                    {ingredient}
-                  </Typography>
-                </Grid>
-              ))}
-            </Grid>
-          </Grid>
-        </Grid>
+        {/* Ingredients*/}
+        <SingleRecipeIngredients ingredients={recipe.ingredients} />
 
-        {/* recipe main body */}
-        <Container>
-          <Container style={{ paddingLeft: "0px" }}>
-            <Typography
-              variant="h5"
-              component="h2"
-              gutterBottom
-              className={classes.typography}
-            >
-              <strong>Preparation</strong>
-            </Typography>
-          </Container>
-
-          {recipe.steps.map((step) => (
-            <Grid
-              container
-              item
-              xs={12}
-              key={step}
-              style={{ width: "fit-screen", marginBottom: "5px" }}
-            >
-              <Typography
-                variant="h6"
-                component="h2"
-                gutterBottom
-                className={classes.typography}
-              >
-                <span>
-                  <strong>{`Step ${recipe.steps.indexOf(step) + 1}: `}</strong>
-                </span>
-                {step}
-              </Typography>
-            </Grid>
-          ))}
-        </Container>
+        {/* Steps */}
+        <SingleRecipeSteps steps={recipe.steps} />
       </Container>
     </div>
   );
