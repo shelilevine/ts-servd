@@ -37,14 +37,11 @@ router.get("/saved", async (ctx, next) => {
   else
     try {
       const recipes = [];
-      await db
-        .collection(ctx.session.user.uid)
-        .get()
-        .then(function (querySnapshot) {
-          querySnapshot.forEach(function (doc) {
-            recipes.push(doc.data());
-          });
-        });
+      const recipeCollection = db.collection(ctx.session.user.uid);
+      const snapshot = await recipeCollection.get();
+      snapshot.forEach((doc) => {
+        recipes.push(doc.data());
+      });
       ctx.body = recipes;
     } catch (err) {
       console.log(err);

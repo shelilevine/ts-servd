@@ -1,61 +1,45 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import AllRecipesRender from "./allRecipesRender";
 
 const serverUrl = "/api/recipes";
 
-export class AllRecipesView extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      isLoading: true,
-    };
-    this.refreshSearch = this.refreshSearch.bind(this);
-  }
+export function AllRecipesView(props) {
+  const [isLoading, setLoadStatus] = useState(true);
 
-  async componentDidMount() {
-    if (this.props.location.state && !this.props.search.length) {
-      const ingredient = this.props.location.state.ingredient;
-      const { data } = await axios.get(serverUrl, {
-        params: {
-          ingredients: ingredient,
-        },
-        withCredentials: false,
-      });
-      this.props.setSearchResults(data);
+  useEffect(() => {
+    if (props.location.state && !props.search.length) {
+      props.setSingleRecipe({});
+      getSearchResults();
     }
-    this.props.setSingleRecipe({});
-    this.setState({ isLoading: false });
-  }
+  }, []);
 
-  async refreshSearch() {
+  async function getSearchResults() {
     window.scrollTo(0, 0);
-    const ingredient = this.props.location.state.ingredient;
+    const ingredient = props.location.state.ingredient;
     const { data } = await axios.get(serverUrl, {
       params: {
         ingredients: ingredient,
       },
       withCredentials: false,
     });
-    this.props.setSearchResults(data);
-    this.setState({ isLoading: false });
+    props.setSearchResults(data);
+    setLoadStatus(false);
   }
 
-  render() {
-    return (
-      <AllRecipesRender
-        recipes={this.props.search}
-        user={this.props.user}
-        savedRecipes={this.props.savedRecipes}
-        saveRecipe={this.props.saveRecipe}
-        removeRecipe={this.props.removeRecipe}
-        setSingleRecipe={this.props.setSingleRecipe}
-        isLoading={this.state.isLoading}
-        refresh={this.refreshSearch}
-      />
-    );
-  }
+  return (
+    <AllRecipesRender
+      recipes={props.search}
+      user={props.user}
+      savedRecipes={props.savedRecipes}
+      saveRecipe={props.saveRecipe}
+      removeRecipe={props.removeRecipe}
+      setSingleRecipe={props.setSingleRecipe}
+      isLoading={isLoading}
+      refresh={getSearchResults}
+    />
+  );
 }
 
 export default withRouter(AllRecipesView);

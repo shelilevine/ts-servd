@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Button, Typography } from "@material-ui/core";
 import Search from "./search";
 import arrowWood from "../arrowwoodback.jpg";
@@ -39,71 +39,58 @@ const styles = {
   },
 };
 
-export class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      ingredient: "",
-      isSubmitted: false,
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
+export function Home(props) {
+  const [ingredient, setIngredient] = useState("");
+  const [isSubmitted, setSubmitStatus] = useState(false);
 
-  componentDidMount() {
-    this.props.setSearchResults([]);
-  }
+  useEffect(() => {
+    props.setSearchResults([]);
+  }, []);
 
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  }
-  handleSubmit(event) {
+  const handleSubmit = (event) => {
     if (event) {
       event.preventDefault();
     }
-    this.setState({ isSubmitted: true });
-  }
-  render() {
-    if (this.state.isSubmitted) {
-      return (
-        <Redirect
-          to={{
-            pathname: `/search`,
-            state: this.state,
-          }}
+    setSubmitStatus(true);
+  };
+
+  if (isSubmitted) {
+    return (
+      <Redirect
+        to={{
+          pathname: `/search`,
+          state: { ingredient },
+        }}
+      />
+    );
+  } else
+    return (
+      <Box mx="auto" style={styles.formContainer}>
+        <Typography
+          color="inherit"
+          align="center"
+          variant="h2"
+          marked="center"
+          style={styles.title}
+        >
+          SEARCH FOR RECIPES
+        </Typography>
+        <Search
+          ingredient={ingredient}
+          onChange={(evt) => setIngredient(evt.target.value)}
+          onSubmit={handleSubmit}
         />
-      );
-    } else
-      return (
-        <Box mx="auto" style={styles.formContainer}>
-          <Typography
-            color="inherit"
-            align="center"
-            variant="h2"
-            marked="center"
-            style={styles.title}
-          >
-            SEARCH FOR RECIPES
-          </Typography>
-          <Search
-            ingredient={this.state.ingredient}
-            onChange={this.handleChange}
-            onSubmit={this.handleSubmit}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            style={styles.button}
-            onClick={this.handleSubmit}
-            disabled={!this.state.ingredient}
-          >
-            Serve!
-          </Button>
-        </Box>
-      );
-  }
+        <Button
+          variant="contained"
+          color="primary"
+          style={styles.button}
+          onClick={handleSubmit}
+          disabled={!ingredient}
+        >
+          Serve!
+        </Button>
+      </Box>
+    );
 }
 
 export default withRouter(Home);

@@ -87,6 +87,7 @@ router.get("/", (ctx, next) => {
 router.put("/", async (ctx, next) => {
   if (!ctx.session.user) ctx.throw(404, "Not logged in");
   try {
+    console.log(ctx.request.body);
     const updatedInfo = parseUserData(ctx.request.body);
     const user = await admin
       .auth()

@@ -1,12 +1,28 @@
-import React from "react";
-import LoginForm from "./LoginForm";
 import axios from "axios";
 import { withRouter, Redirect } from "react-router-dom";
-import { Box } from "@material-ui/core";
+import React, { useState } from "react";
+import GoogleLogin from "react-google-login";
+import {
+  Avatar,
+  Button,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Link,
+  Grid,
+  Typography,
+  Container,
+  Box,
+} from "@material-ui/core";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { makeStyles } from "@material-ui/core/styles";
+import Alert from "@material-ui/lab/Alert";
+const oauthKey = process.env.REACT_APP_OAUTHKEY;
 
 const serverUrl = "/api/auth";
 
-const styles = {
+const useStyles = makeStyles((theme) => ({
   formContainer: {
     alignContent: "center",
     display: "flex",
@@ -15,68 +31,157 @@ const styles = {
     flexDirection: "column",
     minHeight: "100vh",
   },
-};
+  paper: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    backgroundColor: "white",
+    padding: "30px",
+    borderRadius: "10px",
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
 
-export class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-      error: null,
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.loginWithGoogle = this.loginWithGoogle.bind(this);
-  }
+export function SignIn(props) {
+  const classes = useStyles();
 
-  handleChange(evt) {
-    this.setState({ [evt.target.name]: evt.target.value, error: null });
-  }
+  const [email, setEmail] = useState("");
+  const [password, setPw] = useState("");
+  const [error, setError] = useState(null);
 
-  async handleSubmit(evt) {
+  const onSubmit = async (evt) => {
     evt.preventDefault();
     try {
-      const { data } = await axios.post(`${serverUrl}/signin`, this.state);
+      const { data } = await axios.post(`${serverUrl}/signin`, {
+        email,
+        password,
+      });
       if (data.id) {
-        this.props.setUser(data);
-        this.props.history.push(this.props.history.location.state);
+        props.setUser(data);
+        props.history.push(props.history.location.state);
       } else {
-        this.setState({ error: "Invalid username and/or password" });
+        setError({ error: "Invalid username and/or password" });
       }
     } catch (err) {
-      this.setState({ error: "Invalid username and/or password" });
+      setError({ error: "Invalid username and/or password" });
       console.log(err);
     }
-  }
+  };
 
-  async loginWithGoogle(response) {
+  const loginWithGoogle = async (response) => {
     const idToken = response.getAuthResponse().id_token;
     try {
       const { data } = await axios.post(`${serverUrl}/google`, {
         token: idToken,
       });
-      this.props.setUser(data);
-      this.props.history.push(this.props.history.location.state);
+      props.setUser(data);
+      props.history.push(props.history.location.state);
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
-  render() {
-    return this.props.user.id ? (
-      <Redirect to={this.props.history.location.state} />
-    ) : (
-      <Box mx="auto" style={styles.formContainer}>
-        <LoginForm
-          onChange={this.handleChange}
-          onSubmit={this.handleSubmit}
-          state={this.state}
-          loginWithGoogle={this.loginWithGoogle}
-        />
-      </Box>
-    );
-  }
+  return props.user.id ? (
+    <Redirect to={props.history.location.state} />
+  ) : (
+    <Box mx="auto" className={classes.formContainer}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign In
+          </Typography>
+          <form
+            className={classes.form}
+            noValidate
+            onSubmit={(evt) => onSubmit(evt)}
+          >
+            {error ? <Alert severity="error">{error}</Alert> : null}
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              onChange={(evt) => {
+                setError(null);
+                setEmail(evt.target.value);
+              }}
+              value={email}
+              type="email"
+              pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={(evt) => {
+                setError(null);
+                setPw(evt.target.value);
+              }}
+              value={password}
+            />
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <GoogleLogin
+                  clientId={oauthKey}
+                  buttonText="Login"
+                  onSuccess={loginWithGoogle}
+                  cookiePolicy="single_host_origin"
+                  SameSite="None"
+                />
+              </Grid>
+              <Grid item>
+                <Link
+                  variant="body2"
+                  onClick={() => props.history.push("/signup")}
+                >
+                  New to Serv'd? Sign Up
+                </Link>
+              </Grid>
+            </Grid>
+          </form>
+        </div>
+      </Container>
+    </Box>
+  );
 }
 
-export default withRouter(Login);
+export default withRouter(SignIn);
