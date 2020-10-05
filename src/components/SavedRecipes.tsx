@@ -1,11 +1,13 @@
 import React from "react";
 import RecipeCard from "./RecipeCard";
-import { Grid, Container, Box, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Grid, Container, Box, Typography, Theme} from "@material-ui/core";
+import { makeStyles, createStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
+import CSS from 'csstype';
 
-const useStyles = makeStyles((theme) => ({
-  cardGrid: {
+
+const useStyles = makeStyles((theme: Theme) => createStyles({
+  cardGrid  : {
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
   },
@@ -19,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     noWrap: "true",
     color: "white",
-    fontWeight: "70px",
     fontFamily: "Oswald, sans-serif",
     marginBottom: "30px",
     marginTop: "10px",

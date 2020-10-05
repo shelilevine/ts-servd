@@ -34,7 +34,6 @@ const styles: Styles = {
   },
   title: {
     color: "white",
-    // fontWeight: "70px",
     fontFamily: "Oswald, sans-serif",
     fontSize: "50px",
     paddingBottom: "40px",
