@@ -27,7 +27,12 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   },
 }));
 
-const SavedRecipes = (props) => {
+type Props = {
+  recipes: Array<object>,
+  setSingleRecipe: (recipe: Array<object>) => object
+}
+
+const SavedRecipes = (props: Props) => {
   const classes = useStyles();
   const { recipes, setSingleRecipe } = props;
 
