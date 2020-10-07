@@ -1,36 +1,46 @@
 import React from "react";
 import RecipeCard from "./RecipeCard";
-import { Grid, Container, Box, Typography, Theme} from "@material-ui/core";
-import { makeStyles, createStyles} from "@material-ui/core/styles";
+import { Grid, Container, Box, Typography, Theme } from "@material-ui/core";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import CSS from 'csstype';
+import CSS from "csstype";
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    cardGrid: {
+      paddingTop: theme.spacing(8),
+      paddingBottom: theme.spacing(8),
+    },
+    results: {
+      alignContent: "center",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    text: {
+      textAlign: "center",
+      noWrap: "true",
+      color: "white",
+      fontFamily: "Oswald, sans-serif",
+      marginBottom: "30px",
+      marginTop: "10px",
+    },
+  })
+);
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
-  cardGrid  : {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-  },
-  results: {
-    alignContent: "center",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  text: {
-    textAlign: "center",
-    noWrap: "true",
-    color: "white",
-    fontFamily: "Oswald, sans-serif",
-    marginBottom: "30px",
-    marginTop: "10px",
-  },
-}));
+interface Recipe {
+  title: string;
+  steps: Array<string>;
+  ingredients: Array<string>;
+  imgUrl: string;
+  servings: number;
+  time: number;
+}
 
 type Props = {
-  recipes: Array<object>,
-  setSingleRecipe: (recipe: Array<object>) => object
-}
+  recipes: Array<Recipe>;
+  setSingleRecipe: (recipe: Recipe) => object;
+};
 
 const SavedRecipes = (props: Props) => {
   const classes = useStyles();
