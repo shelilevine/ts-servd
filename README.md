@@ -30,6 +30,7 @@ A progressive web application that serves up recipes by ingredient search.
 
 ### Technologies
 - React
+- Typescript
 - Koa
 - NodeJS
 - Google Firestore & Firebase Auth
