@@ -29,16 +29,16 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Recipe {
   title: string;
-  steps: Array<string>;
-  ingredients: Array<string>;
+  steps: string[];
+  ingredients: string[];
   imgUrl: string;
   servings: number;
   time: number;
 }
 
 type Props = {
-  recipes: Array<Recipe>;
-  setSingleRecipe: (recipe: Recipe) => object;
+  recipes: Recipe[];
+  setSingleRecipe: (recipe: Recipe) => void;
 };
 
 const SavedRecipes = (props: Props) => {
