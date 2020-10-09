@@ -3,7 +3,6 @@ import RecipeCard from "./RecipeCard";
 import { Grid, Container, Box, Typography, Theme } from "@material-ui/core";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import CSS from "csstype";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,16 +29,16 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Recipe {
   title: string;
-  steps: Array<string>;
-  ingredients: Array<string>;
+  steps: string[];
+  ingredients: string[];
   imgUrl: string;
   servings: number;
   time: number;
 }
 
 type Props = {
-  recipes: Array<Recipe>;
-  setSingleRecipe: (recipe: Recipe) => object;
+  recipes: Recipe[];
+  setSingleRecipe: (recipe: Recipe) => void;
 };
 
 const SavedRecipes = (props: Props) => {
