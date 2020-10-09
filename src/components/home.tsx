@@ -67,7 +67,7 @@ export function Home(props: Props): JSX.Element {
     props.setSearchResults([]);
   }, []);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit: React.FormEventHandler = (event) => {
     if (event) {
       event.preventDefault();
     }
