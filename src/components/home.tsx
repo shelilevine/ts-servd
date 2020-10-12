@@ -5,12 +5,12 @@ import arrowWood from "../arrowwoodback.jpg";
 import { Redirect, withRouter } from "react-router-dom";
 import CSS from "csstype";
 
-interface Styles {
+type Styles = {
   paperContainer: CSS.Properties;
   formContainer: CSS.Properties;
   title: CSS.Properties;
   button: CSS.Properties;
-}
+};
 
 const styles: Styles = {
   paperContainer: {
