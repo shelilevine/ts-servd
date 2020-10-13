@@ -7,48 +7,62 @@ import {
   Typography,
   Container,
   Button,
+  Theme,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 import RecipeCard from "./RecipeCard";
+import { Recipe, UpdateRecipe, User } from "../interfaces";
 
-const useStyles = makeStyles((theme) => ({
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-  },
-  results: {
-    alignContent: "center",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  text: {
-    textAlign: "center",
-    noWrap: "true",
-    color: "white",
-    fontWeight: "70px",
-    fontFamily: "Oswald, sans-serif",
-    marginBottom: "30px",
-    marginTop: "10px",
-  },
-  button: {
-    backgroundColor: "#ec2d01",
-    color: "white",
-    "&:hover": {
-      color: "#ec2d01",
-      backgroundColor: "white",
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    cardGrid: {
+      paddingTop: theme.spacing(8),
+      paddingBottom: theme.spacing(8),
     },
-  },
-  buttonContainer: {
-    display: "flex",
-    justifyContent: "center",
-    marginTop: "5%",
-    marginBottom: "5%",
-  },
-}));
+    results: {
+      alignContent: "center",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    text: {
+      textAlign: "center",
+      noWrap: "true",
+      color: "white",
+      fontFamily: "Oswald, sans-serif",
+      marginBottom: "30px",
+      marginTop: "10px",
+    },
+    button: {
+      backgroundColor: "#ec2d01",
+      color: "white",
+      "&:hover": {
+        color: "#ec2d01",
+        backgroundColor: "white",
+      },
+    },
+    buttonContainer: {
+      display: "flex",
+      justifyContent: "center",
+      marginTop: "5%",
+      marginBottom: "5%",
+    },
+  })
+);
 
-export function AllRecipesRender(props) {
+type Props = {
+  recipes: Recipe[];
+  savedRecipes: Recipe[];
+  saveRecipe: UpdateRecipe;
+  removeRecipe: UpdateRecipe;
+  setSingleRecipe: UpdateRecipe;
+  isLoading: boolean;
+  refresh: () => void;
+  user: User | {};
+};
+
+export function AllRecipesRender(props: Props) {
   const classes = useStyles();
   const {
     recipes,
