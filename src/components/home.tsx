@@ -4,7 +4,7 @@ import Search from "./search";
 import arrowWood from "../arrowwoodback.jpg";
 import { Redirect, withRouter } from "react-router-dom";
 import CSS from "csstype";
-import Recipe from "../interfaces/Recipe";
+import { Recipe } from "../interfaces";
 
 type Styles = {
   paperContainer: CSS.Properties;

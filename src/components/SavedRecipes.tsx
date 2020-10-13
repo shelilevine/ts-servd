@@ -3,7 +3,7 @@ import RecipeCard from "./RecipeCard";
 import { Grid, Container, Box, Typography, Theme } from "@material-ui/core";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import Recipe from "../interfaces/Recipe";
+import { Recipe } from "../interfaces";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
