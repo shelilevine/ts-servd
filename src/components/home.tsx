@@ -4,6 +4,7 @@ import Search from "./search";
 import arrowWood from "../arrowwoodback.jpg";
 import { Redirect, withRouter } from "react-router-dom";
 import CSS from "csstype";
+import { Recipe } from "../interfaces";
 
 type Styles = {
   paperContainer: CSS.Properties;
@@ -45,15 +46,6 @@ const styles: Styles = {
     borderRadius: "5px",
   },
 };
-
-interface Recipe {
-  title: string;
-  steps: string[];
-  ingredients: string[];
-  imgUrl: string;
-  servings: number;
-  time: number;
-}
 
 type Props = {
   setSearchResults: (result: Recipe[]) => void;
