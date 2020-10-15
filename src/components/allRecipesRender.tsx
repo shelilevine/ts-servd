@@ -10,9 +10,10 @@ import {
   Theme,
 } from "@material-ui/core";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import { withRouter } from "react-router-dom";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import RecipeCard from "./RecipeCard";
 import { Recipe, UpdateRecipe, User } from "../interfaces";
+import { History } from "history";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -51,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-type Props = {
+interface Props extends RouteComponentProps<any> {
   recipes: Recipe[];
   savedRecipes: Recipe[];
   saveRecipe: UpdateRecipe;
@@ -60,9 +61,9 @@ type Props = {
   isLoading: boolean;
   refresh: () => void;
   user: User | {};
-};
+}
 
-export function AllRecipesRender(props: Props) {
+export function AllRecipesRender(props: Props): JSX.Element {
   const classes = useStyles();
   const {
     recipes,
