@@ -13,7 +13,6 @@ import { makeStyles, createStyles } from "@material-ui/core/styles";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import RecipeCard from "./RecipeCard";
 import { Recipe, UpdateRecipe, User } from "../interfaces";
-import { History } from "history";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

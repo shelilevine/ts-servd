@@ -2,9 +2,9 @@ import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { Box, Button, Typography } from "@material-ui/core";
 import Search from "./search";
 import arrowWood from "../arrowwoodback.jpg";
-import { Redirect, withRouter } from "react-router-dom";
+import { Redirect, withRouter, RouteComponentProps } from "react-router-dom";
 import CSS from "csstype";
-import { Recipe } from "../interfaces";
+import { SetSearch } from "../interfaces";
 
 type Styles = {
   paperContainer: CSS.Properties;
@@ -47,13 +47,19 @@ const styles: Styles = {
   },
 };
 
-type Props = {
-  setSearchResults: (result: Recipe[]) => void;
-};
+interface Props extends RouteComponentProps<any> {
+  setSearchResults: SetSearch;
+}
 
 export function Home(props: Props): JSX.Element {
-  const [ingredient, setIngredient] = useState("");
-  const [isSubmitted, setSubmitStatus] = useState(false);
+  const [ingredient, setIngredient]: [
+    string,
+    (ingredient: string) => void
+  ] = useState("");
+  const [isSubmitted, setSubmitStatus]: [
+    boolean,
+    (status: boolean) => void
+  ] = useState(false);
 
   useEffect(() => {
     props.setSearchResults([]);
